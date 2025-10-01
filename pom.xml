@@ -30,6 +30,12 @@
       <version>${testng.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- SLF4J Simple implementation to fix warning -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.16</version>
+    </dependency>
   </dependencies>
 
   <build>

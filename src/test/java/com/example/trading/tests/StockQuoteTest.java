@@ -36,9 +36,23 @@ public class StockQuoteTest {
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920,1080");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--disable-plugins");
+            options.addArguments("--disable-images");
         }
 
+        // Additional Chrome options for better performance and stability
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--disable-web-security");
+        options.addArguments("--allow-running-insecure-content");
+        options.addArguments("--disable-features=VizDisplayCompositor");
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        options.setExperimentalOption("useAutomationExtension", false);
+
         driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
     }
 
     @AfterClass(alwaysRun = true)
@@ -77,6 +91,16 @@ public class StockQuoteTest {
 
             String today = LocalDate.now().toString();
             String header = "=== " + today + " ===";
+
+            // Create backup of existing file before updating
+            if (Files.exists(outFile)) {
+                Path backupDir = outDir.resolve("backup");
+                Files.createDirectories(backupDir);
+                String backupFileName = today + ".txt";
+                Path backupFile = backupDir.resolve(backupFileName);
+                Files.copy(outFile, backupFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Backup created: " + backupFile.toAbsolutePath());
+            }
 
             List<String> existing = Files.exists(outFile)
                     ? Files.readAllLines(outFile, StandardCharsets.UTF_8)

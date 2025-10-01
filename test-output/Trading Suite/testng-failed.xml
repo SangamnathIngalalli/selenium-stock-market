@@ -5,9 +5,9 @@
     <classes>
       <class name="com.example.trading.tests.StockQuoteTest">
         <methods>
-          <include name="tearDown"/>
-          <include name="shouldSearchTickerAndDisplayPrice"/>
-          <include name="setUp"/>
+          <include name="openEt52WeekHighPage"/>
+          <include name="setUpDriver"/>
+          <include name="tearDownDriver"/>
         </methods>
       </class> <!-- com.example.trading.tests.StockQuoteTest -->
     </classes>
